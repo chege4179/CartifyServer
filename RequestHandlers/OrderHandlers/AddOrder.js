@@ -4,6 +4,7 @@ const {mpesa} = require('../../util/config')
 
 
 const AddOrder = (req, res) => {
+
 	const {name, email, phoneNumber, userId, address, products, total} = req.body
 	console.log(phoneNumber)
 	const newOrder = new OrderModel({
