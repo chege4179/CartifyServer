@@ -43,7 +43,7 @@ const SignUpUser = async (req,res) => {
 			.catch((err) => {
 				console.log(err)
 				return res.json({
-					msg:'An unexpected error occurred on the server',
+					msg:'An unexpected error occurred on the cartifyserver',
 					success:false
 				})
 			})

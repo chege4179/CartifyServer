@@ -27,7 +27,7 @@ app.use(BodyParser.urlencoded({extended: true}))
 
 
 app.get('/', (req, res) => {
-	return res.send("Hello World")
+	return res.send("Cartify Web Server")
 })
 
 const UserRoutes = require('./Routes/UserRoutes')
