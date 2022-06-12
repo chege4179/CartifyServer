@@ -31,7 +31,7 @@ const AddOrder = (req, res) => {
 			PartyA: "254725944658",
 			PartyB: "174379",
 			PhoneNumber: "254725944658",
-			CallBackURL: "https://eda9-105-27-149-170.ngrok.io/order/callback",
+			CallBackURL: "https://cartifyserver.vercel.app/order/callback",
 			AccountReference: "Account Reference",
 			passKey: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
 			TransactionType: "CustomerBuyGoodsOnline"

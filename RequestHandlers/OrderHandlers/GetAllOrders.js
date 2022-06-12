@@ -7,9 +7,9 @@ const getAllOrders = async (req,res) => {
 		return res.json({
 			msg:'All orders fetched successfully',
 			success:true,
+			ordersCount:orders.length,
 			orders:orders
 		})
-
 	}catch (e){
 		console.log(e)
 		return res.json({

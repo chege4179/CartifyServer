@@ -41,7 +41,10 @@ app.use('/admin', AdminRoutes)
 app.use('/product', ProductRoutes)
 app.use('/order', OrderRoutes)
 
-
 app.listen(PORT, () => {
 	console.log(`Server started on PORT ${PORT}`)
 })
+if (process.env.NODE_ENV === "production"){
+	module.exports = app;
+
+}
