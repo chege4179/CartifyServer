@@ -41,4 +41,4 @@ const AddNewAdmin = (req,res) => {
 	}
 }
 
-module.exports = { AddNewAdmin }
+export default AddNewAdmin

@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const mongoose_fuzzy_searching = require("custom-mongoose-fuzzy-searching")
-const mongoosePaginate = require('mongoose-paginate-v2');
+import * as mongoose from "mongoose";
+
 
 
 const ProductModel = new mongoose.Schema({
@@ -51,8 +50,5 @@ const ProductModel = new mongoose.Schema({
         default:[]
     }
 })
-ProductModel.plugin(mongoosePaginate)
-ProductModel.plugin(mongoose_fuzzy_searching, {
-    fields: ["name", "description"]
-});
-module.exports = mongoose.model('products',ProductModel)
+
+export default  mongoose.model('products',ProductModel)

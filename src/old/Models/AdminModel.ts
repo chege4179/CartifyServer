@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import * as mongoose from "mongoose";
 
 const AdminModel = new mongoose.Schema({
 	name:{
