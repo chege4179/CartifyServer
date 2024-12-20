@@ -2,7 +2,7 @@ import {NestFactory} from '@nestjs/core';
 import {AppModule} from './src/app/app.module';
 import {Logger, ValidationPipe} from '@nestjs/common';
 import {json} from 'express';
-import {LoggingInterceptor} from "./src/shared/util/logging.interceptor";
+import {LoggingInterceptor} from "./src/shared/interceptor/logging.interceptor";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {LoggerTags} from "./src/shared/util/appConfig";
 import * as process from "node:process";
@@ -19,7 +19,7 @@ async function bootstrap() {
     app.useGlobalInterceptors(new LoggingInterceptor());
     app.useGlobalPipes(new ValidationPipe());
     app.use(json({limit: '50mb'}));
-    app.useBodyParser('json', { limit: '10mb' })
+    app.useBodyParser('json', {limit: '10mb'})
 
     const config = new DocumentBuilder()
         .setTitle('Cartify API')
@@ -36,8 +36,8 @@ async function bootstrap() {
 
 bootstrap()
     .then(() => {
-        Logger.log(`🚀 🚀🚀🚀 Cartify API Service running at port ${Port}`,LoggerTags.BOOT_STRAPPING);
+        Logger.log(`🚀 🚀🚀🚀 Cartify API Service running at port ${Port}`, LoggerTags.BOOT_STRAPPING);
     })
     .catch(() => {
-        Logger.error(`Failed to start Blogger API Service`,LoggerTags.BOOT_STRAPPING);
+        Logger.error(`Failed to start Cartify API Service`, LoggerTags.BOOT_STRAPPING);
     })

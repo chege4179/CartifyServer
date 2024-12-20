@@ -8,7 +8,6 @@ export class AppService {
     async ping() {
         return 'pong';
     }
-
     async helloWord(){
         const env = process.env.NODE_ENV
         return `Blogger App Server Environment: ${env}`
