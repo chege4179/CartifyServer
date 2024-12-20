@@ -5,6 +5,8 @@ import {Repository} from "typeorm";
 import {UserEntity} from "../../shared/entity/user.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {SignUpUserDto} from "../../shared/dto/auth/signUpUser-dto";
+import {CommonFunction} from "../../shared/util/commonFunction";
+import {ErrorMapping} from "../../shared/config/errorMapping";
 
 
 @Injectable()
@@ -12,43 +14,30 @@ export class AuthService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
+        private readonly commonFunction:CommonFunction,
     ) {
     }
 
     async loginUser(payload: LoginUserDto) {
-        try {
-            const findUser = await this.userRepository.findOne({
-                where: {
-                    email: payload.email,
-                }
-            })
-
-            if (findUser === null) {
-                return {
-                    msg: 'No user with this email address exists',
-                    success: false
-                }
+        const findUser = await this.userRepository.findOne({
+            where: {
+                email: payload.email,
             }
-            const hashPassword = findUser.password
+        })
 
-            if (bcrypt.compareSync(payload.password, hashPassword)) {
-                return {
-                    msg: 'Login successful',
-                    success: true,
-                    user: findUser,
-                }
-            } else {
-                return {
-                    msg: 'Wrong credentials',
-                    success: false
-                }
-            }
-        } catch (e) {
-            Logger.error(e)
+        if (findUser === null) {
+            return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
+        }
+        const hashPassword = findUser.password
+
+        if (bcrypt.compareSync(payload.password, hashPassword)) {
             return {
-                msg: "An error occurred",
-                success: false
+                msg: 'Login successful',
+                success: true,
+                user: findUser,
             }
+        } else {
+            return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
         }
     }
 

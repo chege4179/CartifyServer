@@ -19,5 +19,9 @@ export const ErrorMapping = {
     MISSING_IMAGES:{
         message: 'We need atleast 10 images to create a listing',
         code: 'IMAGES_REQUIRED',
+    },
+    INVALID_CREDENTIALS:{
+        message: 'These credentials do not look familiar to us',
+        code: 'INVALID_CREDENTIALS',
     }
 };

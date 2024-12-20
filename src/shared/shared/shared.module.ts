@@ -4,6 +4,7 @@ import {UserEntity} from "../entity/user.entity";
 import {ConfigModule} from "@nestjs/config";
 import {ProductEntity} from "../entity/product.entity";
 import {AdminEntity} from "../entity/admin.entity";
+import {CommonFunction} from "../util/commonFunction";
 
 @Module({
     imports: [
@@ -12,8 +13,14 @@ import {AdminEntity} from "../entity/admin.entity";
         }),
         TypeOrmModule.forFeature([UserEntity, ProductEntity, AdminEntity]),
     ],
-    providers: [],
-    exports: [TypeOrmModule, ConfigModule],
+    providers: [
+        CommonFunction,
+    ],
+    exports: [
+        TypeOrmModule,
+        ConfigModule,
+        CommonFunction,
+    ],
 
 })
 export class SharedModule {
