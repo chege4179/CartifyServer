@@ -23,5 +23,13 @@ export const ErrorMapping = {
     INVALID_CREDENTIALS:{
         message: 'These credentials do not look familiar to us',
         code: 'INVALID_CREDENTIALS',
+    },
+    EXISTING_USER:{
+        message:'A user with the similar email address already exists',
+        code: 'EXISTING_USER',
+    },
+    PRODUCT_NOT_FOUND:{
+        message:"The list does not exist or invalid",
+        code: 'PRODUCT_NOT_FOUND',
     }
 };

@@ -19,12 +19,8 @@ export class ProductEntity {
     @Column()
     category:string
 
-    //
-    // images:{
-    //     type:Array,
-    //     required:true,
-    //     default:[]
-    // },
+    @Column((type) => Image)
+    images: Image[]
 
     @Column()
     onOffer:boolean
@@ -37,6 +33,14 @@ export class ProductEntity {
 
     @Column()
     rating:number
+}
+
+export class Image {
+    @Column()
+    url: string
+
+    @Column()
+    id: string
 
 
 }

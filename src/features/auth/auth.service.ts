@@ -1,4 +1,4 @@
-import {Injectable, Logger} from "@nestjs/common";
+import {BadRequestException, Injectable, Logger} from "@nestjs/common";
 import {LoginUserDto} from "../../shared/dto/auth/loginUser-dto";
 import bcrypt from "bcryptjs";
 import {Repository} from "typeorm";
@@ -19,25 +19,32 @@ export class AuthService {
     }
 
     async loginUser(payload: LoginUserDto) {
-        const findUser = await this.userRepository.findOne({
-            where: {
-                email: payload.email,
-            }
-        })
+        try {
+            const findUser = await this.userRepository.findOne({
+                where: {
+                    email: payload.email,
+                }
+            })
 
-        if (findUser === null) {
-            return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
-        }
-        const hashPassword = findUser.password
-
-        if (bcrypt.compareSync(payload.password, hashPassword)) {
-            return {
-                msg: 'Login successful',
-                success: true,
-                user: findUser,
+            if (findUser === null) {
+                return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
             }
-        } else {
-            return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
+
+            const hashPassword = findUser.password
+
+            if (bcrypt.compareSync(payload.password, hashPassword)) {
+                delete findUser.password
+                return {
+                    msg: 'Login successful',
+                    success: true,
+                    user: findUser,
+                }
+            } else {
+                return this.commonFunction.errorResponse(ErrorMapping.INVALID_CREDENTIALS)
+            }
+        }catch (error) {
+            Logger.error(error)
+            throw new BadRequestException(error)
         }
     }
 
@@ -46,10 +53,8 @@ export class AuthService {
         try {
             const existingUser = await this.userRepository.findOne({where: {email: payload.email}});
             if (existingUser) {
-                return {
-                    msg: 'A user with the similar email address already exists',
-                    success: false
-                }
+                return this.commonFunction.errorResponse(ErrorMapping.EXISTING_USER)
+
             } else {
                 const newUser = new UserEntity()
                 newUser.email = payload.email;
@@ -59,15 +64,17 @@ export class AuthService {
                 newUser.phoneNumber = payload.phoneNumber
                 newUser.fullname = payload.fullname
 
-                await this.userRepository.save(newUser);
+                const savedUser = await this.userRepository.save(newUser);
 
                 return {
                     msg: 'New User created successfully',
-                    success: true
+                    success: true,
+                    user: savedUser,
                 }
             }
         } catch (e) {
-
+            Logger.error(e)
+            return this.commonFunction.errorResponse(e)
         }
     }
 }
