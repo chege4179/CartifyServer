@@ -5,7 +5,7 @@ import {Column, Entity, ObjectId, ObjectIdColumn} from "typeorm";
 })
 export class ProductEntity {
 
-    @ObjectIdColumn()
+    @ObjectIdColumn({ name:"id" })
     _id: ObjectId;
 
     @Column()

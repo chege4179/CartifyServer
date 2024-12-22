@@ -1,11 +1,11 @@
 import {BadRequestException, Injectable, Logger} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Image, ProductEntity} from "../../shared/entity/product.entity";
-import {ObjectId, Repository} from "typeorm";
+import {Repository} from "typeorm";
 import {CreateProductDto} from "../../shared/dto/product/createProduct-dto";
 import {CloudinaryService} from "nestjs-cloudinary";
 import {GetProductbyIdDto} from "../../shared/dto/product/getProductbyId-dto";
-import mongodb from "mongodb";
+import {ObjectId} from "mongodb";
 import {CommonFunction} from "../../shared/util/commonFunction";
 import {ErrorMapping} from "../../shared/config/errorMapping";
 
@@ -77,13 +77,11 @@ export class ProductService {
 
     async getProductById(payload: GetProductbyIdDto): Promise<any> {
         try {
-            Logger.log(`Object with id ${payload.productId}`, )
-
-            const objectId = new mongodb.ObjectId(payload.productId)
+            Logger.log(`Object with id ${payload.productId}`,)
 
             const product = await this.productRepository.findOne({
                 where: {
-                    _id: objectId
+                    _id: new ObjectId(payload.productId)
                 }
             })
             if (!product) {
@@ -92,7 +90,7 @@ export class ProductService {
             return {product: product}
         } catch (error) {
             Logger.error(error);
-            throw new BadRequestException(error)
+            throw new BadRequestException(error.message)
         }
     }
 }

@@ -26,7 +26,6 @@ export class ProductController {
         return await this.productService.getAllProducts();
     }
 
-
     @Post('create')
     @UseInterceptors(FilesInterceptor('images'))
     @HttpCode(HttpStatus.CREATED)
