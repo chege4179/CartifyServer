@@ -14,6 +14,5 @@ export class ProductsImageValidator implements PipeTransform<Array<Express.Multe
         } else {
             return values
         }
-
     }
 }

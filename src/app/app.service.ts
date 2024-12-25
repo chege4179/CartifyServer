@@ -5,11 +5,11 @@ export class AppService {
     constructor() {
     }
 
-    async ping() {
+    ping() {
         return 'pong';
     }
-    async helloWord(){
+    helloWord(){
         const env = process.env.NODE_ENV
-        return `Blogger App Server Environment: ${env}`
+        return `Cartify App Server Environment: ${env}`
     }
 }

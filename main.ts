@@ -1,7 +1,6 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './src/app/app.module';
 import {Logger, ValidationPipe} from '@nestjs/common';
-import {json} from 'express';
 import {LoggingInterceptor} from "./src/shared/interceptor/logging.interceptor";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {LoggerTags} from "./src/shared/util/appConfig";
@@ -18,7 +17,6 @@ async function bootstrap() {
     app.enableCors();
     app.useGlobalInterceptors(new LoggingInterceptor());
     app.useGlobalPipes(new ValidationPipe());
-    app.use(json({limit: '50mb'}));
     app.useBodyParser('json', {limit: '10mb'})
 
     const config = new DocumentBuilder()

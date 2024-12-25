@@ -10,12 +10,12 @@ export class AppController {
 
     @Get('ping')
     async getHello(): Promise<any> {
-        return await this.appService.ping();
+        return this.appService.ping();
     }
 
     @Get("")
     async helloWorld() {
-        return await this.appService.helloWord()
+        return this.appService.helloWord();
     }
 
 }
