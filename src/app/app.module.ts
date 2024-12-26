@@ -6,7 +6,6 @@ import {MulterModule} from "@nestjs/platform-express";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserModule} from "../features/user/user.module";
 import {AuthModule} from "../features/auth/auth.module";
-import {AdminModule} from "../features/admin/admin.module";
 import {ProductModule} from "../features/product/product.module";
 import {SharedModule} from "../shared/shared/shared.module";
 import {APP_FILTER} from "@nestjs/core";
@@ -20,29 +19,32 @@ import {CloudinaryModule} from "nestjs-cloudinary";
         SharedModule,
         UserModule,
         AuthModule,
-        AdminModule,
         ProductModule,
         OrderModule,
         TypeOrmModule.forRootAsync({
             imports: [SharedModule],
             inject: [ConfigService],
-            useFactory: async (configService: ConfigService) => ({
-                type: 'mongodb',
-                url: configService.get<string>('DATABASE_URL'),
-                synchronize: false,
-                entities: ['dist/src/shared/entity/*.entity.{js,ts}'],
-                logging: ["error"],
-            }),
+            useFactory: async (configService: ConfigService) => {
+                return {
+                    type: 'mongodb',
+                    url: configService.get<string>('DATABASE_URL'),
+                    synchronize: false,
+                    entities: ['dist/src/shared/entity/*.entity.{js,ts}'],
+                    logging: ["error"],
+                }
+            },
         }),
         CloudinaryModule.forRootAsync({
             imports: [SharedModule],
             inject: [ConfigService],
-            useFactory: (configService: ConfigService) => ({
-                isGlobal: true,
-                cloud_name: configService.get('CLOUD_NAME'),
-                api_key: configService.get('CLOUDINARY_API_KEY'),
-                api_secret: configService.get('CLOUDINARY_API_SECRET'),
-            }),
+            useFactory: (configService: ConfigService) => {
+                return {
+                    isGlobal: true,
+                    cloud_name: configService.get('CLOUD_NAME'),
+                    api_key: configService.get('CLOUDINARY_API_KEY'),
+                    api_secret: configService.get('CLOUDINARY_API_SECRET'),
+                }
+            },
         }),
         MulterModule.register({
             dest: "./tmp/"

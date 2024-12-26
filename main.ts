@@ -36,6 +36,7 @@ bootstrap()
     .then(() => {
         Logger.log(`🚀 🚀🚀🚀 Cartify API Service running at port ${Port}`, LoggerTags.BOOT_STRAPPING);
     })
-    .catch(() => {
+    .catch((error) => {
+        Logger.error(error)
         Logger.error(`Failed to start Cartify API Service`, LoggerTags.BOOT_STRAPPING);
     })
