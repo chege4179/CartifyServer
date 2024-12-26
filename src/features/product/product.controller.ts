@@ -41,4 +41,11 @@ export class ProductController {
     async getProductById(@Body() payload: GetProductbyIdDto): Promise<any> {
         return await this.productService.getProductById(payload);
     }
+
+
+    @Post("deleteProductById")
+    @HttpCode(HttpStatus.OK)
+    async deleteProductById(@Body() payload: GetProductbyIdDto): Promise<any> {
+        return await this.productService.deleteProductById(payload);
+    }
 }

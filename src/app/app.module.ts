@@ -36,13 +36,13 @@ import {CloudinaryModule} from "nestjs-cloudinary";
         }),
         CloudinaryModule.forRootAsync({
             imports: [SharedModule],
+            inject: [ConfigService],
             useFactory: (configService: ConfigService) => ({
                 isGlobal: true,
                 cloud_name: configService.get('CLOUD_NAME'),
                 api_key: configService.get('CLOUDINARY_API_KEY'),
                 api_secret: configService.get('CLOUDINARY_API_SECRET'),
             }),
-            inject: [ConfigService],
         }),
         MulterModule.register({
             dest: "./tmp/"

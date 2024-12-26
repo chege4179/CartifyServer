@@ -77,8 +77,6 @@ export class ProductService {
 
     async getProductById(payload: GetProductbyIdDto): Promise<any> {
         try {
-            Logger.log(`Object with id ${payload.productId}`,)
-
             const product = await this.productRepository.findOne({
                 where: {
                     _id: new ObjectId(payload.productId)
@@ -90,7 +88,29 @@ export class ProductService {
             return {product: product}
         } catch (error) {
             Logger.error(error);
-            throw new BadRequestException(error.message)
+            throw new BadRequestException("Failed to get the product")
+        }
+    }
+
+
+    async deleteProductById(payload: GetProductbyIdDto): Promise<any> {
+        try {
+            const product = await this.productRepository.findOne({
+                where: {
+                    _id: new ObjectId(payload.productId)
+                }
+            })
+            if (!product) {
+                return this.commonFunction.errorResponse(ErrorMapping.PRODUCT_NOT_FOUND)
+            }
+            const result = await this.productRepository.delete(payload.productId)
+            return {
+                result
+            }
+        } catch (error) {
+            Logger.error(error)
+            throw new BadRequestException("Failed to delete product")
+
         }
     }
 }
